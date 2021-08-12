@@ -9,9 +9,6 @@ let cousesInShoppingCar = [];
 loadEventListeners();
 
 function loadEventListeners() {
-  // Cuando agregas un curso presionando "agregar al carrito"
-  cardsCourses.addEventListener("click", addCourse);
-
   //Elimina cursos del carrito
   shoppingCarContainer.addEventListener("click", deleteCourse);
 
@@ -35,7 +32,6 @@ function addCourse(e) {
     const seletedCourse = e.target.parentElement.parentElement;
 
     processCourse(seletedCourse);
-    cousesInShoppingCar;
   }
 }
 
