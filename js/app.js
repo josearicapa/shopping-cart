@@ -9,9 +9,6 @@ let cousesInShoppingCar = [];
 loadEventListeners();
 
 function loadEventListeners() {
-  //Elimina cursos del carrito
-  shoppingCarContainer.addEventListener("click", deleteCourse);
-
   //Muestra los cursos de LocalStorage
   document.addEventListener("DOMContentLoaded", () => {
     cousesInShoppingCar = JSON.parse(localStorage.getItem("shoppingCar")) || [];
@@ -105,7 +102,7 @@ function displayShoppingCarItems() {
         <td>${price}</td>
         <td>${amount}</td>
         <td>
-          <a href="#" class="empty-course" data-id="${id}"> X </a>
+          <a href="#" class="empty-course" onclick="deleteCourse(event)" data-id="${id}"> X </a>
         </td>
         `;
 
