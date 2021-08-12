@@ -17,25 +17,20 @@ function loadEventListeners() {
 
 // Funciones
 function addCourse(e) {
-  if (e.target.classList.contains("add-shopping-car")) {
-    const seletedCourse = e.target.parentElement.parentElement;
-
-    processCourse(seletedCourse);
-  }
+  const seletedCourse = e.target.parentElement.parentElement;
+  processCourse(seletedCourse);
 }
 
 //Elimina un curso del carrito
 function deleteCourse(e) {
-  if (e.target.classList.contains("empty-course")) {
-    const courseId = e.target.getAttribute("data-id");
+  const courseId = e.target.getAttribute("data-id");
 
-    //Elimina del arreglo del articulosCarrito por el data-id
-    cousesInShoppingCar = cousesInShoppingCar.filter(
-      (curso) => curso.id !== courseId
-    );
+  //Elimina del arreglo del articulosCarrito por el data-id
+  cousesInShoppingCar = cousesInShoppingCar.filter(
+    (curso) => curso.id !== courseId
+  );
 
-    displayShoppingCarItems(); // Iteramos de nuevo y mostramos el HTML.
-  }
+  displayShoppingCarItems(); // Iteramos de nuevo y mostramos el HTML.
 }
 
 // leer el contenido de HTML al que le dimos click y extraer la info del curso
