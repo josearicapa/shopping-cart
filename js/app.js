@@ -23,7 +23,6 @@ function loadEventListeners() {
 
   //Vacionar el carrito .
   btnEmptyShoppingCar.addEventListener("click", () => {
-    console.log("Vaciando ");
     cousesInShoppingCar = [];
 
     clearHTMLShoppingCar(); //Eliminamos todo el HTML
@@ -32,8 +31,6 @@ function loadEventListeners() {
 
 // Funciones
 function addCourse(e) {
-  console.log(e.target);
-
   if (e.target.classList.contains("add-shopping-car")) {
     const seletedCourse = e.target.parentElement.parentElement;
 
