@@ -1,7 +1,6 @@
 //Variables
 const shoppingCarContainer = document.querySelector("#shoppingCarContainer");
 const shoppingCarTable = document.querySelector("#shoppingCarTable tbody");
-const btnEmptyShoppingCar = document.querySelector("#emptyShoppingCar");
 const cardsCourses = document.querySelector("#cardsCourses");
 //Cursos agregados al carrito.
 let cousesInShoppingCar = [];
@@ -13,13 +12,6 @@ function loadEventListeners() {
   document.addEventListener("DOMContentLoaded", () => {
     cousesInShoppingCar = JSON.parse(localStorage.getItem("shoppingCar")) || [];
     displayShoppingCarItems();
-  });
-
-  //Vacionar el carrito .
-  btnEmptyShoppingCar.addEventListener("click", () => {
-    cousesInShoppingCar = [];
-
-    clearHTMLShoppingCar(); //Eliminamos todo el HTML
   });
 }
 
@@ -87,7 +79,7 @@ function processCourse(course) {
 // Muestra el carrito de compras en el HTML
 function displayShoppingCarItems() {
   // Limpiar el HTML
-  clearHTMLShoppingCar();
+  removeElementsInShoppingCarTable();
 
   cousesInShoppingCar.forEach((course) => {
     const {image, title, price, amount, id} = course;
@@ -120,10 +112,11 @@ function sinchronizeStorage() {
 
 // Elimina los cursos agregados al carrito del tbody
 function clearHTMLShoppingCar() {
-  // Dos forma de eliminar elementos
-  //Forma lenta de limpiar un contenedor.
-  //contenedorCarrito.innerHTML = "";
+  cousesInShoppingCar = [];
+  removeElementsInShoppingCarTable();
+}
 
+function removeElementsInShoppingCarTable() {
   // Mientras que haya un hijo, itera. Mas rapida que innerHTML.
   while (shoppingCarTable.firstChild) {
     shoppingCarTable.removeChild(shoppingCarTable.firstChild);
