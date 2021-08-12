@@ -20,8 +20,8 @@
             <ul>
               <li class="submenu">
                 <img src="img/cart.png" id="img-carrito" />
-                <div id="carrito">
-                  <table id="lista-carrito" class="u-full-width">
+                <div id="shoppingCarContainer">
+                  <table id="shoppingCarTable" class="u-full-width">
                     <thead>
                       <tr>
                         <th>Image</th>
@@ -34,7 +34,7 @@
                     <tbody></tbody>
                   </table>
 
-                  <a href="#" id="vaciar-carrito" class="button u-full-width"
+                  <a href="#" id="emptyShoppingCar" class="button u-full-width"
                     >Empty shopping car</a
                   >
                 </div>
@@ -51,18 +51,14 @@
             <div class="contenido-hero">
               <h2>Learn something new</h2>
               <p>All courses only for $15</p>
-              <form action="#" id="busqueda" method="post" class="formulario">
+              <form action="#" id="search" method="post" class="formulario">
                 <input
                   class="u-full-width"
                   type="text"
                   placeholder="What do you like to learn?"
-                  id="buscador"
+                  id="search"
                 />
-                <input
-                  type="submit"
-                  id="submit-buscador"
-                  class="submit-buscador"
-                />
+                <input type="submit" id="submit-search" class="submit-search" />
               </form>
             </div>
           </div>
@@ -95,19 +91,26 @@
       </div>
     </div>
 
-    <div id="lista-cursos" class="container">
-      <h1 id="encabezado" class="encabezado">Online courses</h1>
+    <div id="cardsCourses" class="container">
+      <h1 id="header-form" class="header-form">Online courses</h1>
       <div class="row">
         <div class="four columns">
           <div class="card">
-            <img src="img/curso1.jpg" class="imagen-curso u-full-width" />
+            <img src="img/curso1.jpg" class="image-course u-full-width" />
             <div class="info-card">
               <h4>JS for beginners</h4>
               <p>Juan Pedro</p>
               <img src="img/estrellas.png" />
-              <p class="precio">$200 <span class="u-pull-right">$15</span></p>
+              <p class="price-style">
+                $200 <span class="u-pull-right">$15</span>
+              </p>
               <button
-                class="u-full-width button-primary button input agregar-carrito"
+                class="
+                  u-full-width
+                  button-primary button
+                  input
+                  add-shopping-car
+                "
                 data-id="1"
               >
                 Add shopping car
@@ -118,14 +121,21 @@
         </div>
         <div class="four columns">
           <div class="card">
-            <img src="img/curso2.jpg" class="imagen-curso u-full-width" />
+            <img src="img/curso2.jpg" class="image-course u-full-width" />
             <div class="info-card">
               <h4>Vegetarian food</h4>
               <p>Melissa Hurtado</p>
               <img src="img/estrellas.png" />
-              <p class="precio">$200 <span class="u-pull-right">$15</span></p>
+              <p class="price-style">
+                $200 <span class="u-pull-right">$15</span>
+              </p>
               <button
-                class="u-full-width button-primary button input agregar-carrito"
+                class="
+                  u-full-width
+                  button-primary button
+                  input
+                  add-shopping-car
+                "
                 data-id="2"
               >
                 Add shopping car
@@ -135,14 +145,21 @@
         </div>
         <div class="four columns">
           <div class="card">
-            <img src="img/curso3.jpg" class="imagen-curso u-full-width" />
+            <img src="img/curso3.jpg" class="image-course u-full-width" />
             <div class="info-card">
               <h4>Guitar for beginners</h4>
               <p>German Martinez</p>
               <img src="img/estrellas.png" />
-              <p class="precio">$200 <span class="u-pull-right">$15</span></p>
+              <p class="price-style">
+                $200 <span class="u-pull-right">$15</span>
+              </p>
               <button
-                class="u-full-width button-primary button input agregar-carrito"
+                class="
+                  u-full-width
+                  button-primary button
+                  input
+                  add-shopping-car
+                "
                 data-id="3"
               >
                 Add shopping car
@@ -156,14 +173,21 @@
       <div class="row">
         <div class="four columns">
           <div class="card">
-            <img src="img/curso4.jpg" class="imagen-curso u-full-width" />
+            <img src="img/curso4.jpg" class="image-course u-full-width" />
             <div class="info-card">
               <h4>Vegetable garden at home</h4>
               <p>Diego Mora</p>
               <img src="img/estrellas.png" />
-              <p class="precio">$200 <span class="u-pull-right">$15</span></p>
+              <p class="price-style">
+                $200 <span class="u-pull-right">$15</span>
+              </p>
               <button
-                class="u-full-width button-primary button input agregar-carrito"
+                class="
+                  u-full-width
+                  button-primary button
+                  input
+                  add-shopping-car
+                "
                 data-id="4"
               >
                 Add shopping car
@@ -174,14 +198,21 @@
         </div>
         <div class="four columns">
           <div class="card">
-            <img src="img/curso5.jpg" class="imagen-curso u-full-width" />
+            <img src="img/curso5.jpg" class="image-course u-full-width" />
             <div class="info-card">
               <h4>Decoration for your home</h4>
               <p>Marina Muñoz</p>
               <img src="img/estrellas.png" />
-              <p class="precio">$200 <span class="u-pull-right">$15</span></p>
+              <p class="price-style">
+                $200 <span class="u-pull-right">$15</span>
+              </p>
               <button
-                class="u-full-width button-primary button input agregar-carrito"
+                class="
+                  u-full-width
+                  button-primary button
+                  input
+                  add-shopping-car
+                "
                 data-id="5"
               >
                 Add shopping car
@@ -192,14 +223,21 @@
         </div>
         <div class="four columns">
           <div class="card">
-            <img src="img/curso1.jpg" class="imagen-curso u-full-width" />
+            <img src="img/curso1.jpg" class="image-course u-full-width" />
             <div class="info-card">
               <h4>Web Design for Beginners</h4>
               <p>Juan Pedro</p>
               <img src="img/estrellas.png" />
-              <p class="precio">$200 <span class="u-pull-right">$15</span></p>
+              <p class="price-style">
+                $200 <span class="u-pull-right">$15</span>
+              </p>
               <button
-                class="u-full-width button-primary button input agregar-carrito"
+                class="
+                  u-full-width
+                  button-primary button
+                  input
+                  add-shopping-car
+                "
                 data-id="6"
               >
                 Add shopping car
@@ -213,14 +251,21 @@
       <div class="row">
         <div class="four columns">
           <div class="card">
-            <img src="img/curso2.jpg" class="imagen-curso u-full-width" />
+            <img src="img/curso2.jpg" class="image-course u-full-width" />
             <div class="info-card">
               <h4>Mexican food for beginners</h4>
               <p>Juan Pedro</p>
               <img src="img/estrellas.png" />
-              <p class="precio">$200 <span class="u-pull-right">$15</span></p>
+              <p class="price-style">
+                $200 <span class="u-pull-right">$15</span>
+              </p>
               <button
-                class="u-full-width button-primary button input agregar-carrito"
+                class="
+                  u-full-width
+                  button-primary button
+                  input
+                  add-shopping-car
+                "
                 data-id="7"
               >
                 Add shopping car
@@ -231,14 +276,21 @@
         </div>
         <div class="four columns">
           <div class="card">
-            <img src="img/curso3.jpg" class="imagen-curso u-full-width" />
+            <img src="img/curso3.jpg" class="image-course u-full-width" />
             <div class="info-card">
               <h4>Musical studio at home</h4>
               <p>Jose Ramon</p>
               <img src="img/estrellas.png" />
-              <p class="precio">$200 <span class="u-pull-right">$15</span></p>
+              <p class="price-style">
+                $200 <span class="u-pull-right">$15</span>
+              </p>
               <button
-                class="u-full-width button-primary button input agregar-carrito"
+                class="
+                  u-full-width
+                  button-primary button
+                  input
+                  add-shopping-car
+                "
                 data-id="8"
               >
                 Agregar Al Carrito
@@ -249,14 +301,21 @@
         </div>
         <div class="four columns">
           <div class="card">
-            <img src="img/curso4.jpg" class="imagen-curso u-full-width" />
+            <img src="img/curso4.jpg" class="image-course u-full-width" />
             <div class="info-card">
               <h4>Harvest your own fruits and vegetables</h4>
               <p>Julio Cesar</p>
               <img src="img/estrellas.png" />
-              <p class="precio">$200 <span class="u-pull-right">$15</span></p>
+              <p class="price-style">
+                $200 <span class="u-pull-right">$15</span>
+              </p>
               <button
-                class="u-full-width button-primary button input agregar-carrito"
+                class="
+                  u-full-width
+                  button-primary button
+                  input
+                  add-shopping-car
+                "
                 data-id="9"
               >
                 Add shopping car
@@ -270,14 +329,21 @@
       <div class="row">
         <div class="four columns">
           <div class="card">
-            <img src="img/curso5.jpg" class="imagen-curso u-full-width" />
+            <img src="img/curso5.jpg" class="image-course u-full-width" />
             <div class="info-card">
               <h4>Prepare homemade cookies</h4>
               <p>Juana Santana</p>
               <img src="img/estrellas.png" />
-              <p class="precio">$200 <span class="u-pull-right">$15</span></p>
+              <p class="price-style">
+                $200 <span class="u-pull-right">$15</span>
+              </p>
               <button
-                class="u-full-width button-primary button input agregar-carrito"
+                class="
+                  u-full-width
+                  button-primary button
+                  input
+                  add-shopping-car
+                "
                 data-id="10"
               >
                 Add shopping car
@@ -288,14 +354,21 @@
         </div>
         <div class="four columns">
           <div class="card">
-            <img src="img/curso1.jpg" class="imagen-curso u-full-width" />
+            <img src="img/curso1.jpg" class="image-course u-full-width" />
             <div class="info-card">
               <h4>Advance JS with ES6</h4>
               <p>Didier Muñoz</p>
               <img src="img/estrellas.png" />
-              <p class="precio">$200 <span class="u-pull-right">$15</span></p>
+              <p class="price-style">
+                $200 <span class="u-pull-right">$15</span>
+              </p>
               <button
-                class="u-full-width button-primary button input agregar-carrito"
+                class="
+                  u-full-width
+                  button-primary button
+                  input
+                  add-shopping-car
+                "
                 data-id="11"
               >
                 Add shopping car
@@ -306,14 +379,21 @@
         </div>
         <div class="four columns">
           <div class="card">
-            <img src="img/curso2.jpg" class="imagen-curso u-full-width" />
+            <img src="img/curso2.jpg" class="image-course u-full-width" />
             <div class="info-card">
               <h4>100 diferent foods</h4>
               <p>Lorena Paz</p>
               <img src="img/estrellas.png" />
-              <p class="precio">$200 <span class="u-pull-right">$15</span></p>
+              <p class="price-style">
+                $200 <span class="u-pull-right">$15</span>
+              </p>
               <button
-                class="u-full-width button-primary button input agregar-carrito"
+                class="
+                  u-full-width
+                  button-primary button
+                  input
+                  add-shopping-car
+                "
                 data-id="12"
               >
                 Add shopping car
