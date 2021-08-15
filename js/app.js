@@ -21,16 +21,13 @@ function addCourse(e) {
   processCourse(seletedCourse);
 }
 
-//Elimina un curso del carrito
+/**
+ * Allow delete a course
+ * @param {Evento generado al eliminar un curso} e
+ */
 function deleteCourse(e) {
-  const courseId = e.target.getAttribute("data-id");
-
-  //Elimina del arreglo del articulosCarrito por el data-id
-  cousesInShoppingCar = cousesInShoppingCar.filter(
-    (curso) => curso.id !== courseId
-  );
-
-  displayShoppingCarItems(); // Iteramos de nuevo y mostramos el HTML.
+  const parentElement = e.target.parentElement.parentElement;
+  parentElement.remove();
 }
 
 // leer el contenido de HTML al que le dimos click y extraer la info del curso
@@ -80,17 +77,22 @@ function displayShoppingCarItems() {
     const {image, title, price, amount, id} = course;
 
     const row = document.createElement("tr");
+    row.id = `row-${id}`;
+
     // Se construye el HTML con base a en un template string
-    row.innerHTML = `
-        <td>
-            <img src='${image}' width='100'>
-        </td>
-        <td>${title}</td>
-        <td>${price}</td>
-        <td>${amount}</td>
-        <td>
-          <a href="#" class="empty-course" onclick="deleteCourse(event)" data-id="${id}"> X </a>
-        </td>
+    row.innerHTML = `      
+          <td>
+              <img src='${image}' width='100'>
+          </td>
+          <td>${title}</td>
+          <td>${price}</td>
+          <td>${amount}</td>
+          <td class="cell-add-course">
+            <a href="#" class="button-cell-courses" onclick="deleteCourse(event)" data-id="${id}"> + </a>
+          </td>
+          <td>
+            <a href="#" class="button-cell-courses" onclick="deleteCourse(event)" data-id="${id}"> - </a>
+          </td>        
         `;
 
     // agrega el HTML en el carrito
