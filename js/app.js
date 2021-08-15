@@ -47,6 +47,7 @@ function processCourse(course) {
   const courseExists = cousesInShoppingCar.some(
     (course) => course.id === infoCourse.id
   );
+
   if (courseExists) {
     //Actualizamos la cantidad. map crea un nuevo arreglo.
     const coursesList = cousesInShoppingCar.map((course) => {
@@ -74,13 +75,28 @@ function displayShoppingCarItems() {
   removeElementsInShoppingCarTable();
 
   cousesInShoppingCar.forEach((course) => {
-    const {image, title, price, amount, id} = course;
+    const row = getHTMLRowElementCourse(course);
 
-    const row = document.createElement("tr");
-    row.id = `row-${id}`;
+    // agrega el HTML en el carrito
+    shoppingCarTable.appendChild(row);
+  });
 
-    // Se construye el HTML con base a en un template string
-    row.innerHTML = `      
+  //Adicionar al storage
+  sinchronizeStorage();
+}
+
+/**
+ * Get the HTML row element course
+ * @param {*} course Course to be convert
+ * @returns HTML row element
+ */
+function getHTMLRowElementCourse(course) {
+  const {image, title, price, amount, id} = course;
+
+  const row = document.createElement("tr");
+  row.id = `row-${id}`;
+
+  row.innerHTML = `      
           <td>
               <img src='${image}' width='100'>
           </td>
@@ -94,13 +110,7 @@ function displayShoppingCarItems() {
             <a href="#" class="button-cell-courses" onclick="deleteCourse(event)" data-id="${id}"> - </a>
           </td>        
         `;
-
-    // agrega el HTML en el carrito
-    shoppingCarTable.appendChild(row);
-  });
-
-  //Adicionar al storage
-  sinchronizeStorage();
+  return row;
 }
 
 function sinchronizeStorage() {
