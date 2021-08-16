@@ -26,7 +26,6 @@ function eventAddCourse(e) {
   const courseCard = e.target.parentElement.parentElement;
 
   const infoCourse = {
-    image: courseCard.querySelector("img").src,
     title: courseCard.querySelector("h4").textContent,
     price: courseCard.querySelector(".price-style span").textContent,
     courseId: e.target.getAttribute("course-id"),
@@ -117,14 +116,13 @@ function processAmountCourses(courseId, increase) {
  * @returns HTML row element
  */
 function getHTMLRowElementCourse(course) {
-  const {image, title, price, amount, courseId} = course;
+  const {title, price, amount, courseId} = course;
 
   const row = document.createElement("tr");
   row.id = `tableData-${courseId}`;
-
   row.innerHTML = `      
           <td>
-              <img src='${image}' width='100'>
+              <img src='./img/curso${courseId}.jpg' width='100'>
           </td>
           <td>${title}</td>
           <td>${price}</td>
