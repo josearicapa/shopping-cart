@@ -26,7 +26,7 @@ function eventAddCourse(e) {
   const courseCard = e.target.parentElement.parentElement;
 
   const infoCourse = {
-    title: courseCard.querySelector("h4").textContent,
+    title: courseCard.querySelector(".info-card h4").textContent,
     price: courseCard.querySelector(".price-style span").textContent,
     courseId: e.target.getAttribute("course-id"),
     amount: 1,
