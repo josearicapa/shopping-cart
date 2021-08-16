@@ -1,88 +1,114 @@
-//Variables
 const shoppingCarContainer = document.querySelector("#shoppingCarContainer");
 const shoppingCarTable = document.querySelector("#shoppingCarTable tbody");
 const cardsCourses = document.querySelector("#cardsCourses");
-//Cursos agregados al carrito.
-let cousesInShoppingCar = [];
+
+let coursesInShoppingCar = new Map();
 
 loadEventListeners();
 
+/**
+ * Inicialization
+ */
 function loadEventListeners() {
   //Muestra los cursos de LocalStorage
   document.addEventListener("DOMContentLoaded", () => {
-    cousesInShoppingCar = JSON.parse(localStorage.getItem("shoppingCar")) || [];
+    coursesInShoppingCar =
+      JSON.parse(localStorage.getItem("shoppingCar"), reviver) || new Map([]);
     displayShoppingCarItems();
   });
 }
 
-// Funciones
-function addCourse(e) {
-  const seletedCourse = e.target.parentElement.parentElement;
-  processCourse(seletedCourse);
+/**
+ * Event to add course
+ * @param {e} event
+ */
+function eventAddCourse(e) {
+  const courseCard = e.target.parentElement.parentElement;
+
+  const infoCourse = {
+    image: courseCard.querySelector("img").src,
+    title: courseCard.querySelector("h4").textContent,
+    price: courseCard.querySelector(".price-style span").textContent,
+    courseId: e.target.getAttribute("course-id"),
+    amount: 1,
+  };
+
+  addCourse(infoCourse);
+}
+
+/**
+ * Allow add or increase amount a course
+ * @param {course} course to add
+ */
+function addCourse(course) {
+  if (coursesInShoppingCar.has(course.courseId)) {
+    IncreaseAmountCourse(course.courseId);
+  } else {
+    addNewCourse(course);
+  }
+}
+
+/**
+ * Allow adding a course
+ * @param {course} Course to add
+ */
+function addNewCourse(course) {
+  const row = getHTMLRowElementCourse(course);
+  shoppingCarTable.appendChild(row);
+  coursesInShoppingCar.set(course.courseId, course);
+  sinchronizeStorage();
+}
+
+/**
+ * Increase amount of a course
+ * @param {courseId} Course ID
+ */
+function IncreaseAmountCourse(courseId) {
+  processAmountCourses(courseId, true);
 }
 
 /**
  * Allow delete a course
  * @param {Evento generado al eliminar un curso} e
  */
-function deleteCourse(e) {
-  const parentElement = e.target.parentElement.parentElement;
-  parentElement.remove();
+function eventDeleteCourse(e) {
+  const courseId = e.target.getAttribute("course-id");
+  deleteCourse(courseId);
 }
-
-// leer el contenido de HTML al que le dimos click y extraer la info del curso
-function processCourse(course) {
-  // Crear un objeto con el contenido del cursos actual
-  const infoCourse = {
-    image: course.querySelector("img").src,
-    title: course.querySelector("h4").textContent,
-    price: course.querySelector(".price-style span").textContent,
-    id: course.querySelector(".add-shopping-car").getAttribute("data-id"),
-    amount: 1,
-  };
-
-  //Revisar si un elemento ya existe en el carrito
-  /* some permite iterar sobre un arreglo de objetos y 
-  verificar si un elemento existe en elemento */
-  const courseExists = cousesInShoppingCar.some(
-    (course) => course.id === infoCourse.id
-  );
-
-  if (courseExists) {
-    //Actualizamos la cantidad. map crea un nuevo arreglo.
-    const coursesList = cousesInShoppingCar.map((course) => {
-      if (course.id === infoCourse.id) {
-        course.amount++;
-        return course; // Retorna el objeto actualizado
-      } else {
-        return course; // Retorna los objetos que no son duplicados.
-      }
-    });
-
-    cousesInShoppingCar = [...coursesList];
+/**
+ * Delete a course
+ * @param {Course to delete} courseId
+ */
+function deleteCourse(courseId) {
+  const course = coursesInShoppingCar.get(courseId);
+  if (course.amount <= 1) {
+    shoppingCarTable.querySelector(`#tableData-${courseId}`).remove();
+    coursesInShoppingCar.delete(courseId);
   } else {
-    // agregamos elementos al arreglo del carrito
-    // agrega elementos al arreglo de carrito.
-    cousesInShoppingCar = [...cousesInShoppingCar, infoCourse];
+    decreaseAmountCourses(courseId);
   }
-
-  displayShoppingCarItems();
+  sinchronizeStorage();
 }
 
-// Muestra el carrito de compras en el HTML
-function displayShoppingCarItems() {
-  // Limpiar el HTML
-  removeElementsInShoppingCarTable();
+/**
+ * Decrease amount of course
+ * @param {Course Id} courseId
+ */
+function decreaseAmountCourses(courseId) {
+  processAmountCourses(courseId, false);
+}
 
-  cousesInShoppingCar.forEach((course) => {
-    const row = getHTMLRowElementCourse(course);
-
-    // agrega el HTML en el carrito
-    shoppingCarTable.appendChild(row);
-  });
-
-  //Adicionar al storage
-  sinchronizeStorage();
+/**
+ * Allow increasing o decreasing the amount of a course
+ * @param {courseId} Course Id
+ * @param {increase} increase = true - decrease = false
+ */
+function processAmountCourses(courseId, increase) {
+  const course = coursesInShoppingCar.get(courseId);
+  increase ? course.amount++ : course.amount--;
+  shoppingCarTable.querySelector(
+    `#amount-${course.courseId}`
+  ).textContent = `${course.amount}`;
 }
 
 /**
@@ -91,10 +117,10 @@ function displayShoppingCarItems() {
  * @returns HTML row element
  */
 function getHTMLRowElementCourse(course) {
-  const {image, title, price, amount, id} = course;
+  const {image, title, price, amount, courseId} = course;
 
   const row = document.createElement("tr");
-  row.id = `row-${id}`;
+  row.id = `tableData-${courseId}`;
 
   row.innerHTML = `      
           <td>
@@ -102,30 +128,83 @@ function getHTMLRowElementCourse(course) {
           </td>
           <td>${title}</td>
           <td>${price}</td>
-          <td>${amount}</td>
+          <td id='amount-${courseId}'>${amount}</td>
           <td class="cell-add-course">
-            <a href="#" class="button-cell-courses" onclick="deleteCourse(event)" data-id="${id}"> + </a>
+            <a href="#" class="button-cell-courses" onclick="IncreaseAmountCourse('${courseId}')" course-id="${courseId}"> + </a>
           </td>
           <td>
-            <a href="#" class="button-cell-courses" onclick="deleteCourse(event)" data-id="${id}"> - </a>
+            <a href="#" class="button-cell-courses" onclick="eventDeleteCourse(event)" course-id="${courseId}"> - </a>
           </td>        
         `;
   return row;
 }
 
+/**
+ * Sincronize data with Store
+ */
 function sinchronizeStorage() {
-  localStorage.setItem("shoppingCar", JSON.stringify(cousesInShoppingCar));
+  localStorage.setItem(
+    "shoppingCar",
+    JSON.stringify(coursesInShoppingCar, replacer)
+  );
 }
 
-// Elimina los cursos agregados al carrito del tbody
+/**
+ * Clean shopping car
+ */
 function clearHTMLShoppingCar() {
-  cousesInShoppingCar = [];
+  coursesInShoppingCar.clear();
   removeElementsInShoppingCarTable();
 }
 
+/**
+ * Remove all elements
+ */
 function removeElementsInShoppingCarTable() {
   // Mientras que haya un hijo, itera. Mas rapida que innerHTML.
   while (shoppingCarTable.firstChild) {
     shoppingCarTable.removeChild(shoppingCarTable.firstChild);
   }
+}
+
+/**
+ * Display course storaged
+ */
+function displayShoppingCarItems() {
+  coursesInShoppingCar.forEach((course) => {
+    const row = getHTMLRowElementCourse(course);
+    shoppingCarTable.appendChild(row);
+  });
+}
+
+/**
+ * Allow replace map values to Storage
+ * @param {*} key
+ * @param {*} value
+ * @returns
+ */
+function replacer(key, value) {
+  if (value instanceof Map) {
+    return {
+      dataType: "Map",
+      value: Array.from(value.entries()), // or with spread: value: [...value]
+    };
+  } else {
+    return value;
+  }
+}
+
+/**
+ * Allow retrive data
+ * @param {*} key
+ * @param {*} value
+ * @returns
+ */
+function reviver(key, value) {
+  if (typeof value === "object" && value !== null) {
+    if (value.dataType === "Map") {
+      return new Map(value.value);
+    }
+  }
+  return value;
 }
