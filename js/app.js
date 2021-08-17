@@ -24,15 +24,24 @@ function loadEventListeners() {
  */
 function eventAddCourse(e) {
   const courseCard = e.target.parentElement.parentElement;
-
-  const infoCourse = {
-    title: courseCard.querySelector(".info-card h4").textContent,
-    price: courseCard.querySelector(".price-style span").textContent,
-    courseId: e.target.getAttribute("course-id"),
-    amount: 1,
-  };
+  const courseId = e.target.getAttribute("course-id");
+  const infoCourse = getCourseFromCard(courseCard, courseId);
 
   addCourse(infoCourse);
+}
+
+/**
+ * Get info course from a card HTML
+ * @param {courseCard} course HTML Card
+ * @returns course object
+ */
+function getCourseFromCard(courseCard, courseId) {
+  return {
+    title: courseCard.querySelector(".info-card h4").textContent,
+    price: courseCard.querySelector(".price-style span").textContent,
+    courseId: courseId,
+    amount: 1,
+  };
 }
 
 /**
