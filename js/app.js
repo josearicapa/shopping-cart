@@ -221,14 +221,18 @@ function reviver(key, value) {
   return value;
 }
 /**
- *
+ * Get a courses list in the shopping car
  * @returns Get a list of course in shopping car
  */
 export function getCoursesInShoppingCar() {
   return coursesInShoppingCar;
 }
 
-function getShoppingCarTable(params) {
+/**
+ * Get the shopping car table.
+ * @returns Referente table
+ */
+function getShoppingCarTable() {
   if (!shoppingCarTable) {
     shoppingCarTable = document.querySelector("#shoppingCarTable tbody");
   }
