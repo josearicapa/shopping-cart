@@ -1,0 +1,21 @@
+{
+  "name": "shopping-cart",
+  "version": "1.0.0",
+  "description": "Project goal in BetterMe - DOM Manipulation",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --coverage --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com-josearicapa:josearicapa/shopping-cart.git"
+  },
+  "author": "Jose Aricapa",
+  "license": "Globant",
+  "devDependencies": {
+    "@babel/preset-env": "^7.15.0",
+    "jest": "^27.0.6",
+    "jest-html-reporter": "^3.4.1",
+    "jsdom": "^16.7.0"
+  }
+}

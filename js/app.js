@@ -1,7 +1,4 @@
-const shoppingCarContainer = document.querySelector("#shoppingCarContainer");
-const shoppingCarTable = document.querySelector("#shoppingCarTable tbody");
-const cardsCourses = document.querySelector("#cardsCourses");
-
+let shoppingCarTable;
 let coursesInShoppingCar = new Map();
 
 loadEventListeners();
@@ -9,9 +6,13 @@ loadEventListeners();
 /**
  * Inicialization
  */
-function loadEventListeners() {
-  //Muestra los cursos de LocalStorage
+export function loadEventListeners() {
   document.addEventListener("DOMContentLoaded", () => {
+    window.eventAddCourse = eventAddCourse;
+    window.clearHTMLShoppingCar = clearHTMLShoppingCar;
+    window.eventDeleteCourse = eventDeleteCourse;
+    window.IncreaseAmountCourse = IncreaseAmountCourse;
+
     coursesInShoppingCar =
       JSON.parse(localStorage.getItem("shoppingCar"), reviver) || new Map([]);
     displayShoppingCarItems();
@@ -22,7 +23,7 @@ function loadEventListeners() {
  * Event to add course
  * @param {e} event
  */
-function eventAddCourse(e) {
+export function eventAddCourse(e) {
   const courseCard = e.target.parentElement.parentElement;
   const courseId = e.target.getAttribute("course-id");
   const infoCourse = getCourseFromCard(courseCard, courseId);
@@ -35,7 +36,7 @@ function eventAddCourse(e) {
  * @param {courseCard} course HTML Card
  * @returns course object
  */
-function getCourseFromCard(courseCard, courseId) {
+export function getCourseFromCard(courseCard, courseId) {
   return {
     title: courseCard.querySelector(".info-card h4").textContent,
     price: courseCard.querySelector(".price-style span").textContent,
@@ -48,7 +49,7 @@ function getCourseFromCard(courseCard, courseId) {
  * Allow add or increase amount a course
  * @param {course} course to add
  */
-function addCourse(course) {
+export function addCourse(course) {
   if (coursesInShoppingCar.has(course.courseId)) {
     IncreaseAmountCourse(course.courseId);
   } else {
@@ -60,9 +61,9 @@ function addCourse(course) {
  * Allow adding a course
  * @param {course} Course to add
  */
-function addNewCourse(course) {
+export function addNewCourse(course) {
   const row = getHTMLRowElementCourse(course);
-  shoppingCarTable.appendChild(row);
+  getShoppingCarTable().appendChild(row);
   coursesInShoppingCar.set(course.courseId, course);
   sinchronizeStorage();
 }
@@ -71,7 +72,7 @@ function addNewCourse(course) {
  * Increase amount of a course
  * @param {courseId} Course ID
  */
-function IncreaseAmountCourse(courseId) {
+export function IncreaseAmountCourse(courseId) {
   processAmountCourses(courseId, true);
 }
 
@@ -79,7 +80,7 @@ function IncreaseAmountCourse(courseId) {
  * Allow delete a course
  * @param {Evento generado al eliminar un curso} e
  */
-function eventDeleteCourse(e) {
+export function eventDeleteCourse(e) {
   const courseId = e.target.getAttribute("course-id");
   deleteCourse(courseId);
 }
@@ -87,8 +88,10 @@ function eventDeleteCourse(e) {
  * Delete a course
  * @param {Course to delete} courseId
  */
-function deleteCourse(courseId) {
+export function deleteCourse(courseId) {
   const course = coursesInShoppingCar.get(courseId);
+  shoppingCarTable = getShoppingCarTable();
+
   if (course.amount <= 1) {
     shoppingCarTable.querySelector(`#tableData-${courseId}`).remove();
     coursesInShoppingCar.delete(courseId);
@@ -102,7 +105,7 @@ function deleteCourse(courseId) {
  * Decrease amount of course
  * @param {Course Id} courseId
  */
-function decreaseAmountCourses(courseId) {
+export function decreaseAmountCourses(courseId) {
   processAmountCourses(courseId, false);
 }
 
@@ -111,8 +114,9 @@ function decreaseAmountCourses(courseId) {
  * @param {courseId} Course Id
  * @param {increase} increase = true - decrease = false
  */
-function processAmountCourses(courseId, increase) {
+export function processAmountCourses(courseId, increase) {
   const course = coursesInShoppingCar.get(courseId);
+  shoppingCarTable = getShoppingCarTable();
   increase ? course.amount++ : course.amount--;
   shoppingCarTable.querySelector(
     `#amount-${course.courseId}`
@@ -124,7 +128,7 @@ function processAmountCourses(courseId, increase) {
  * @param {*} course Course to be convert
  * @returns HTML row element
  */
-function getHTMLRowElementCourse(course) {
+export function getHTMLRowElementCourse(course) {
   const {title, price, amount, courseId} = course;
 
   const row = document.createElement("tr");
@@ -134,13 +138,13 @@ function getHTMLRowElementCourse(course) {
               <img src='./img/curso${courseId}.jpg' width='100'>
           </td>
           <td>${title}</td>
-          <td>${price}</td>
-          <td id='amount-${courseId}'>${amount}</td>
+          <td class="cell-numbers">${price}</td>
+          <td class="cell-numbers" id='amount-${courseId}'>${amount}</td>
           <td class="cell-add-course">
-            <a href="#" class="button-cell-courses" onclick="IncreaseAmountCourse('${courseId}')" course-id="${courseId}"> + </a>
+            <button class="button-cell-courses" onclick="IncreaseAmountCourse('${courseId}')" course-id="${courseId}">+    </button>
           </td>
           <td>
-            <a href="#" class="button-cell-courses" onclick="eventDeleteCourse(event)" course-id="${courseId}"> - </a>
+            <button class="button-cell-courses" onclick="eventDeleteCourse(event)" course-id="${courseId}">-</button>
           </td>        
         `;
   return row;
@@ -149,7 +153,7 @@ function getHTMLRowElementCourse(course) {
 /**
  * Sincronize data with Store
  */
-function sinchronizeStorage() {
+export function sinchronizeStorage() {
   localStorage.setItem(
     "shoppingCar",
     JSON.stringify(coursesInShoppingCar, replacer)
@@ -159,7 +163,7 @@ function sinchronizeStorage() {
 /**
  * Clean shopping car
  */
-function clearHTMLShoppingCar() {
+export function clearHTMLShoppingCar() {
   coursesInShoppingCar.clear();
   removeElementsInShoppingCarTable();
 }
@@ -167,8 +171,8 @@ function clearHTMLShoppingCar() {
 /**
  * Remove all elements
  */
-function removeElementsInShoppingCarTable() {
-  // Mientras que haya un hijo, itera. Mas rapida que innerHTML.
+export function removeElementsInShoppingCarTable() {
+  shoppingCarTable = getShoppingCarTable();
   while (shoppingCarTable.firstChild) {
     shoppingCarTable.removeChild(shoppingCarTable.firstChild);
   }
@@ -177,7 +181,8 @@ function removeElementsInShoppingCarTable() {
 /**
  * Display course storaged
  */
-function displayShoppingCarItems() {
+export function displayShoppingCarItems() {
+  shoppingCarTable = getShoppingCarTable();
   coursesInShoppingCar.forEach((course) => {
     const row = getHTMLRowElementCourse(course);
     shoppingCarTable.appendChild(row);
@@ -214,4 +219,19 @@ function reviver(key, value) {
     }
   }
   return value;
+}
+/**
+ *
+ * @returns Get a list of course in shopping car
+ */
+export function getCoursesInShoppingCar() {
+  return coursesInShoppingCar;
+}
+
+function getShoppingCarTable(params) {
+  if (!shoppingCarTable) {
+    shoppingCarTable = document.querySelector("#shoppingCarTable tbody");
+  }
+
+  return shoppingCarTable;
 }

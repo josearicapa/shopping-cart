@@ -25,15 +25,26 @@ header {
   }
 }
 .button-cell-courses {
-  background-color: red;
-  border-radius: 50%;
-  padding: 5px 10px;
-  text-decoration: none;
+  height: 30px;
+  line-height: 5px;
+  width: 15px;
+  font-size: small;
+  border-radius: 20%;
+  background-color: #ac4267;
   color: white;
+  text-align: center;
+  cursor: pointer;
 }
 
 .cell-add-course {
-  padding-right: 1px;
+  padding-right: 0px;
+}
+
+.plus {
+  background: linear-gradient(#fff, #fff), linear-gradient(#fff, #fff), #ac4267;
+  background-position: center;
+  background-size: 19% 0.2em, 0.2em 40%;
+  background-repeat: no-repeat;
 }
 
 .cell-numbers {
