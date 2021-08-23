@@ -45,7 +45,7 @@ function addClearShoppingCarListener() {
  * Event to add course
  * @param {e} event
  */
-function eventAddCourse(btnAddCourse) {
+export function eventAddCourse(btnAddCourse) {
   const courseCard = btnAddCourse.parentElement.parentElement;
   const courseId = btnAddCourse.getAttribute("course-id");
   const infoCourse = getCourseFromCard(courseCard, courseId);
@@ -98,14 +98,6 @@ export function IncreaseAmountCourse(courseId) {
   processAmountCourses(courseId, true);
 }
 
-/**
- * Allow delete a course
- * @param {Evento generado al eliminar un curso} e
- */
-export function eventDeleteCourse(e) {
-  const courseId = e.target.getAttribute("course-id");
-  deleteCourse(courseId);
-}
 /**
  * Delete a course
  * @param {Course to delete} courseId

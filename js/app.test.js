@@ -7,6 +7,7 @@ import {
   deleteCourse,
   clearHTMLShoppingCar,
   shoppingCarTable,
+  eventAddCourse,
 } from "./app";
 const fs = require("fs");
 const path = require("path");
@@ -120,6 +121,14 @@ describe("Add courses at shopping car", () => {
     const coursesList = getCoursesInShoppingCar();
     expect(coursesList.size).toBe(1);
     expect(coursesList.get(1).amount).toBe(3);
+  });
+
+  test("should be add a course by event", () => {
+    const courseCard = document.querySelector(".card");
+    const btnAddCourse = courseCard.querySelector(".add-shopping-car");
+    eventAddCourse(btnAddCourse);
+    const coursesList = getCoursesInShoppingCar();
+    expect(coursesList.size).toBe(1);
   });
 });
 
