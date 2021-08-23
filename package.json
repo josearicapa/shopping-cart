@@ -4,7 +4,8 @@
   "description": "Project goal in BetterMe - DOM Manipulation",
   "main": "index.js",
   "scripts": {
-    "test": "jest --coverage --watch"
+    "test": "jest --coverage --watch",
+    "webpack": "webpack"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,8 @@
     "eslint": "^7.32.0",
     "jest": "^27.0.6",
     "jest-html-reporter": "^3.4.1",
-    "jsdom": "^16.7.0"
+    "jsdom": "^16.7.0",
+    "webpack": "^5.51.1",
+    "webpack-cli": "^4.8.0"
   }
 }
