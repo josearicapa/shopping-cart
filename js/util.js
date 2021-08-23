@@ -40,6 +40,10 @@ function sinchronizeStorage(coursesInShoppingCar) {
   );
 }
 
+/**
+ * Get shopping courses car storaged
+ * @returns Map
+ */
 function gestStoreShoopingCar() {
   const storage =
     JSON.parse(localStorage.getItem("shoppingCar"), reviver) || new Map([]);
