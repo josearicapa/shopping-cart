@@ -8,14 +8,36 @@ loadEventListeners();
  */
 export function loadEventListeners() {
   document.addEventListener("DOMContentLoaded", () => {
-    window.eventAddCourse = eventAddCourse;
-    window.clearHTMLShoppingCar = clearHTMLShoppingCar;
-    window.eventDeleteCourse = eventDeleteCourse;
-    window.IncreaseAmountCourse = IncreaseAmountCourse;
-
     coursesInShoppingCar =
       JSON.parse(localStorage.getItem("shoppingCar"), reviver) || new Map([]);
     displayShoppingCarItems();
+
+    addButtonsListeners();
+    addClearShoppingCarListener();
+  });
+}
+
+/**
+ * Add buttons add courses listener,
+ */
+function addButtonsListeners() {
+  const buttons = document.getElementsByClassName("add-shopping-car");
+
+  for (let i = 0; i < buttons.length; i++) {
+    const btnAddCourse = buttons[i];
+    btnAddCourse.addEventListener("click", () => {
+      eventAddCourse(btnAddCourse);
+    });
+  }
+}
+
+/**
+ * Clear shopping car
+ */
+function addClearShoppingCarListener() {
+  const btnEmptyShoppingCar = document.getElementById("emptyShoppingCar");
+  btnEmptyShoppingCar.addEventListener("click", () => {
+    clearHTMLShoppingCar();
   });
 }
 
@@ -23,9 +45,9 @@ export function loadEventListeners() {
  * Event to add course
  * @param {e} event
  */
-export function eventAddCourse(e) {
-  const courseCard = e.target.parentElement.parentElement;
-  const courseId = e.target.getAttribute("course-id");
+function eventAddCourse(btnAddCourse) {
+  const courseCard = btnAddCourse.parentElement.parentElement;
+  const courseId = btnAddCourse.getAttribute("course-id");
   const infoCourse = getCourseFromCard(courseCard, courseId);
 
   addCourse(infoCourse);
@@ -139,15 +161,55 @@ export function getHTMLRowElementCourse(course) {
           </td>
           <td>${title}</td>
           <td class="cell-numbers">${price}</td>
-          <td class="cell-numbers" id='amount-${courseId}'>${amount}</td>
-          <td class="cell-add-course">
-            <button class="button-cell-courses" onclick="IncreaseAmountCourse('${courseId}')" course-id="${courseId}">+    </button>
-          </td>
-          <td>
-            <button class="button-cell-courses" onclick="eventDeleteCourse(event)" course-id="${courseId}">-</button>
-          </td>        
+          <td class="cell-numbers" id='amount-${courseId}'>${amount}</td>         
         `;
+
+  const btnIncrease = getHTMLIncreaseButton(courseId);
+  const btnDelete = getHTMLDeleteButton(courseId);
+
+  row.appendChild(btnIncrease);
+  row.appendChild(btnDelete);
+
   return row;
+}
+
+/**
+ * Get increase button
+ * @param {} courseId
+ */
+function getHTMLIncreaseButton(courseId) {
+  const btnAdd = document.createElement("button");
+  btnAdd.id = `increase-course-${courseId}`;
+  btnAdd.classList.add("button-cell-courses");
+  btnAdd.textContent = "+";
+  btnAdd.addEventListener("click", () => {
+    IncreaseAmountCourse(courseId);
+  });
+
+  const blockTD = document.createElement("td");
+  blockTD.classList.add("cell-add-course");
+  blockTD.appendChild(btnAdd);
+
+  return blockTD;
+}
+
+/**
+ * Get increase button
+ * @param {} courseId
+ */
+function getHTMLDeleteButton(courseId) {
+  const btnAdd = document.createElement("button");
+  btnAdd.id = `delete-course-${courseId}`;
+  btnAdd.textContent = "-";
+  btnAdd.classList.add("button-cell-courses");
+  btnAdd.addEventListener("click", () => {
+    deleteCourse(courseId);
+  });
+
+  const blockTD = document.createElement("td");
+  blockTD.appendChild(btnAdd);
+
+  return blockTD;
 }
 
 /**
