@@ -1,3 +1,5 @@
+import {gestStoreShoopingCar, sinchronizeStorage} from "./util";
+
 let shoppingCarTable;
 let coursesInShoppingCar = new Map();
 
@@ -8,8 +10,8 @@ loadEventListeners();
  */
 export function loadEventListeners() {
   document.addEventListener("DOMContentLoaded", () => {
-    coursesInShoppingCar =
-      JSON.parse(localStorage.getItem("shoppingCar"), reviver) || new Map([]);
+    coursesInShoppingCar = gestStoreShoopingCar();
+
     displayShoppingCarItems();
 
     addButtonsListeners();
@@ -87,7 +89,7 @@ export function addNewCourse(course) {
   const row = getHTMLRowElementCourse(course);
   getShoppingCarTable().appendChild(row);
   coursesInShoppingCar.set(course.courseId, course);
-  sinchronizeStorage();
+  sinchronizeStorage(coursesInShoppingCar);
 }
 
 /**
@@ -112,7 +114,7 @@ export function deleteCourse(courseId) {
   } else {
     decreaseAmountCourses(courseId);
   }
-  sinchronizeStorage();
+  sinchronizeStorage(coursesInShoppingCar);
 }
 
 /**
@@ -135,7 +137,7 @@ export function processAmountCourses(courseId, increase) {
   shoppingCarTable.querySelector(
     `#amount-${course.courseId}`
   ).textContent = `${course.amount}`;
-  sinchronizeStorage();
+  sinchronizeStorage(coursesInShoppingCar);
 }
 
 /**
@@ -206,16 +208,6 @@ function getHTMLDeleteButton(courseId) {
 }
 
 /**
- * Sincronize data with Store
- */
-export function sinchronizeStorage() {
-  localStorage.setItem(
-    "shoppingCar",
-    JSON.stringify(coursesInShoppingCar, replacer)
-  );
-}
-
-/**
  * Clean shopping car
  */
 export function clearHTMLShoppingCar() {
@@ -244,37 +236,6 @@ export function displayShoppingCarItems() {
   });
 }
 
-/**
- * Allow replace map values to Storage
- * @param {*} key
- * @param {*} value
- * @returns
- */
-function replacer(key, value) {
-  if (value instanceof Map) {
-    return {
-      dataType: "Map",
-      value: Array.from(value.entries()), // or with spread: value: [...value]
-    };
-  } else {
-    return value;
-  }
-}
-
-/**
- * Allow retrive data
- * @param {*} key
- * @param {*} value
- * @returns
- */
-function reviver(key, value) {
-  if (typeof value === "object" && value !== null) {
-    if (value.dataType === "Map") {
-      return new Map(value.value);
-    }
-  }
-  return value;
-}
 /**
  * Get a courses list in the shopping car
  * @returns Get a list of course in shopping car
