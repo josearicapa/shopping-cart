@@ -1,3 +1,4 @@
 webpack.config.js
 bundle.js
 app.test.js
+jest.config.js
