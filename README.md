@@ -43,3 +43,36 @@ Podemos recorrer el DOM y utilizar algunas propiedades que nos permiten devolver
    a. element.nextElementSibling
    b. element.previousElementSibling
    c. Combine parentElement, children, and index
+
+## Bubbling
+
+Cuando un evento ocurre en un elemento, primero ejecuta el controlador de eventos de el, luego el controlado de eventos del elemento padre y luego el los elementos ancestros.
+
+![DOM tree](/img/bubbling.png)
+
+Lo más habitual es no querer que el evento se propague, algo que se resuelve de forma muy sencilla añadiendo un stopPropagation():
+
+.addEventListener('click', e => {
+e.stopPropagation()
+
+## Capturing
+
+Es raramente usado en proyectos reales, pero algunas veces es útil.
+Cuando un evento ocurre en un elemento, primero ejecuta el controlador de eventos mas exterior y luego a los controladores de eventos de los elementos más internos.
+
+![DOM tree](/img/capturing.png)
+
+## Que es lo mas pesado que se hace en el DOM y como evitarlo?
+
+Un tamaño excesivo del tamaño del DOM puede generar problemas como:
+
+1. Eficiencia en la red y redimiento en la carga
+2. Rendimientos en tiempo de ejecución
+3. Rendimiento de memoria
+
+Como optimizar el tamaño del DOM?
+
+1. Una manera de mejorar el rendimiento es crear nodos en el DOM solo cuando sea necesario y destruir los nodos cuando ya no sean necesarios.
+2. Si el DOM en muy grande puede afectar la carga inicial. Podemos identificar y mostrar sólo los nodos
+   que se muestran al usuario y eliminar los que no se muestren. Después, los otros nosotros se mostrarían en la medida que el usuario interactue con la página, como por ejemplo haciendo Scroll.
+3. Otra manera de mejorar el rendimiento en DOM de gran tamaño es simplificar los selectores de CSS la complejidad del cálculo de estilo computado.
