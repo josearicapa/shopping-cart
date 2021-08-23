@@ -213,6 +213,7 @@ function getHTMLDeleteButton(courseId) {
 export function clearHTMLShoppingCar() {
   coursesInShoppingCar.clear();
   removeElementsInShoppingCarTable();
+  sinchronizeStorage(new Map([]));
 }
 
 /**
