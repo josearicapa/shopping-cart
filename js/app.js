@@ -135,6 +135,7 @@ export function processAmountCourses(courseId, increase) {
   shoppingCarTable.querySelector(
     `#amount-${course.courseId}`
   ).textContent = `${course.amount}`;
+  sinchronizeStorage();
 }
 
 /**
